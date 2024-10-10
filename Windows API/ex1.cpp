@@ -7,6 +7,7 @@
 using namespace std;
 
 struct ProcessInfo {
+    // lưu trữ chuỗi ký tự Unicode
     wstring name;
     DWORD id;
 };
@@ -53,7 +54,7 @@ void ListProcesses() {
     
     sort(process.begin(), process.end(), cmp);
     for (auto x:process) {
-        //wide character: làm việc với chuỗi ký tự Unicode
+        //wide character: xuất chuỗi Unicode
         wcout << L"Image Name: " << x.name << L", PID: " << x.id << endl;
     }
 }
