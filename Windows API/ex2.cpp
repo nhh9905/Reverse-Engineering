@@ -3,15 +3,18 @@
 #include <tlhelp32.h>
 #include <string>
 using namespace std;
+
 // Hàm kết thúc tiến trình theo Process ID
 bool TerminateByPID(DWORD processID) {
     // PROCESS_TERMINATE: quyền yêu cầu khi mở tiến trình
     // FALSE: ko cần kế thừa từ các tiến trình cha
     HANDLE hProcess = OpenProcess(PROCESS_TERMINATE, FALSE, processID);
+
     if (hProcess == NULL) {
         cout << "Can't open process with PID: " << processID << ". Fault: " << GetLastError() << endl;
         return false;
     }
+
     // TerminateProcess: dùng để kết thúc 1 tiến trình
     if (TerminateProcess(hProcess, 0)) {
         cout << "Process PID " << processID << " has been ended." << endl;
@@ -23,6 +26,7 @@ bool TerminateByPID(DWORD processID) {
         return false;
     }
 }
+
 // Hàm tìm và kết thúc tiến trình theo tên Image
 bool TerminateByImageName(const string& imageName) {
     HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
@@ -30,6 +34,7 @@ bool TerminateByImageName(const string& imageName) {
         cout << "Can't take tasklist. Fault: " << GetLastError() << endl;
         return false;
     }
+
     PROCESSENTRY32 pe32;
     pe32.dwSize = sizeof(PROCESSENTRY32);
     if (!Process32First(hSnapshot, &pe32)) {
@@ -37,6 +42,7 @@ bool TerminateByImageName(const string& imageName) {
         CloseHandle(hSnapshot);
         return false;
     }
+
     bool terminated = false;
     do {
         //stricmp: không phân biệt chữ hoa với chữ thường
@@ -47,10 +53,12 @@ bool TerminateByImageName(const string& imageName) {
         }
     } while (Process32Next(hSnapshot, &pe32));
     CloseHandle(hSnapshot);
+    
     if (!terminated)
         cout << "Can't find process with name: " << imageName << endl;
     return terminated;
 }
+
 int main(int argc, char* argv[]) {
     if (argc < 3) {
         cout << "Use: " << argv[0] << " [PID | IMAGENAME] [ProcessID | ImageName]" << endl;

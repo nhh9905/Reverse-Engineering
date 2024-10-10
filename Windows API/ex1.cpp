@@ -5,6 +5,7 @@
 #include <vector>
 #include <algorithm>
 using namespace std;
+
 struct ProcessInfo {
     wstring name;
     DWORD id;
@@ -56,6 +57,7 @@ void ListProcesses() {
         wcout << L"Image Name: " << x.name << L", PID: " << x.id << endl;
     }
 }
+
 int main() {
     freopen("a.out", "w", stdout);
     ListProcesses();
