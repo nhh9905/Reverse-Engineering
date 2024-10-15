@@ -2,7 +2,6 @@
 #include <windows.h>
 #define ll long long
 #define success ERROR_SUCCESS
-
 using namespace std;
 wstring QueryRegistryValue(HKEY root, LPCWSTR subkey, LPCWSTR value_name) {
     HKEY key;
@@ -36,14 +35,12 @@ void SystemInfo() {
     //Name of computer
     CHAR computer_name[MAX_COMPUTERNAME_LENGTH + 1];
     DWORD size = sizeof(computer_name)/sizeof(computer_name[0]);
-    //GetComputerNameA(pointer of buffer, pointer size of buf)
     if (GetComputerNameA(computer_name, &size))
         cout << "Host Name: " << computer_name << endl;
     //Processor Architecture
     SYSTEM_INFO sysinfo;
     GetSystemInfo(&sysinfo);
-    if (sysinfo.wProcessorArchitecture == 9)
-        cout << "Processor Architecture: x64" << endl;
+    cout << "Processor Architecture: " << sysinfo.wProcessorArchitecture << endl;
     //Physical Memory
     MEMORYSTATUSEX memory;
     memory.dwLength = sizeof(memory);
