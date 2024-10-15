@@ -17,5 +17,5 @@ int main() {
             cout << entry.path().filename().string() << endl;
     }
     else
-        cout << "Directory does not exist or is not accessible";
+        cout << "Not found directory";
 }
